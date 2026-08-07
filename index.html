@@ -96,6 +96,8 @@
   table.sched{ width:100%; border-collapse:collapse; font-size:0.88rem; }
   table.sched td{ padding:5px 6px; border-bottom:1px solid #eee; vertical-align:top; }
   table.sched td:first-child{ white-space:nowrap; color:var(--tesr-red); font-weight:600; width:130px; }
+  table.sched td .topic{ display:block; font-weight:600; color:var(--text); }
+  table.sched td .desc{ display:block; font-size:0.82rem; color:var(--muted); }
   table.sched tr.break td{ color:var(--muted); font-weight:400; font-style:italic; }
   table.sched tr.break td:first-child{ color:var(--muted); font-weight:400; }
   .note{ font-size:0.83rem; color:var(--muted); margin-top:6px; }
@@ -253,8 +255,10 @@
       <li>ตรวจจับวัตถุแบบ Real-time</li>
       <li>นำโมเดลไปใช้งานบนระบบ AI Vision</li>
       <li>เพิ่มความแม่นยำของ AI Model</li>
-      <li>Deploy บน Raspberry Pi 5 และ Jetson Orin Nano</li>
-      <li>เชื่อมต่อผลลัพธ์ AI เข้ากับ IoT และ Dashboard</li>
+      <li>สร้างระบบ Face Recognition ที่เพิ่มคนใหม่ได้โดยไม่ต้อง Retrain</li>
+      <li>แปลงโมเดล PyTorch → ONNX → TensorRT ให้เหมาะกับ Hardware</li>
+      <li>Deploy ด้วย Docker บน Raspberry Pi 5 และ Jetson Orin Nano</li>
+      <li>เชื่อมต่อผลลัพธ์ AI เข้ากับ MQTT, Node-RED และ Dashboard</li>
     </ul>
   </div>
 
@@ -273,27 +277,39 @@
   <div class="card">
     <h2>กำหนดการอบรม</h2>
     <div class="schedule-day">
-      <h3>Day 1 — Build Your AI Model</h3>
+      <h3>Day 1 : Build Your AI Model</h3>
       <table class="sched">
-        <tr><td>09:00 - 10:15</td><td>AI Vision Workflow (ภาพรวมการทำงานของระบบ AI Vision ตั้งแต่ต้นจนถึง Deploy)</td></tr>
-        <tr><td>10:15 - 12:00</td><td>Train Your First AI (เก็บภาพ ทำ Dataset และเทรนโมเดลตัวแรก)</td></tr>
-        <tr class="break"><td>12:00 - 13:00</td><td>พักทานอาหารกลางวัน 60 นาที</td></tr>
-        <tr><td>13:00 - 14:30</td><td>Detect Anything (Object Detection และการทดสอบกับภาพ วิดีโอ และกล้อง)</td></tr>
-        <tr><td>14:30 - 16:00</td><td>Train Your Own AI Model (เทรนโมเดลจากโจทย์ของผู้เรียนเอง)</td></tr>
+        <tr><td>09:00 - 09:30</td><td><span class="topic">Environment Setup</span><span class="desc">ติดตั้ง Python, VS Code, AI Environment และ Workshop Files</span></td></tr>
+        <tr><td>09:30 - 10:00</td><td><span class="topic">AI Vision Workflow</span><span class="desc">ภาพรวมการพัฒนา AI ตั้งแต่ Collect Data → Train → Deploy → Real-world AI</span></td></tr>
+        <tr><td>10:00 - 10:30</td><td><span class="topic">Camera &amp; Image Processing</span><span class="desc">OpenCV, Image Processing, Video และ Webcam</span></td></tr>
+        <tr class="break"><td>10:30 - 10:45</td><td>☕ พักรับประทานอาหารว่าง</td></tr>
+        <tr><td>10:45 - 11:30</td><td><span class="topic">AI &amp; Deep Learning Fundamentals</span><span class="desc">AI, Neural Network, PyTorch, Tensor, Loss, Optimizer, Epoch</span></td></tr>
+        <tr><td>11:30 - 12:00</td><td><span class="topic">Workshop : Train Your First AI</span><span class="desc">เข้าใจการ Train AI แบบ Step-by-Step</span></td></tr>
+        <tr class="break"><td>12:00 - 13:00</td><td>🍽 พักรับประทานอาหารกลางวัน</td></tr>
+        <tr><td>13:00 - 13:45</td><td><span class="topic">Build Your AI Detector</span><span class="desc">Object Detection ด้วย YOLO และ Real-time Detection</span></td></tr>
+        <tr><td>13:45 - 14:30</td><td><span class="topic">Workshop : Detect Anything</span><span class="desc">Image, Video และ Webcam Detection</span></td></tr>
+        <tr class="break"><td>14:30 - 14:45</td><td>☕ พักรับประทานอาหารว่าง</td></tr>
+        <tr><td>14:45 - 15:30</td><td><span class="topic">Teach AI with Your Own Images</span><span class="desc">Collect Images, Label และ Build Dataset</span></td></tr>
+        <tr><td>15:30 - 16:00</td><td><span class="topic">Workshop : Train Your Own AI Model</span><span class="desc">Train Custom Model และ Export best.pt</span></td></tr>
       </table>
     </div>
     <div class="schedule-day">
-      <h3>Day 2 — Deploy AI to the Real World</h3>
+      <h3>Day 2 : Deploy AI to Real World</h3>
       <table class="sched">
-        <tr><td>09:00 - 10:15</td><td>Improve AI Accuracy (วิเคราะห์ผล และปรับปรุงความแม่นยำของโมเดล)</td></tr>
-        <tr><td>10:15 - 11:15</td><td>Optimize AI for Edge (Export Model และ Optimize ให้เหมาะกับ Edge Device)</td></tr>
-        <tr><td>11:15 - 12:00</td><td>Deploy AI Anywhere (นำโมเดลขึ้น Raspberry Pi 5 และ Jetson Orin Nano)</td></tr>
-        <tr class="break"><td>12:00 - 13:00</td><td>พักทานอาหารกลางวัน 60 นาที</td></tr>
-        <tr><td>13:00 - 14:30</td><td>AI + IoT Integration (ส่งผลลัพธ์ AI เข้า MQTT, Node-RED และ Dashboard)</td></tr>
-        <tr><td>14:30 - 16:00</td><td>From Model to Edge AI (สรุประบบ, Final Project Demo และแนวทางต่อยอด)</td></tr>
+        <tr><td>09:00 - 09:30</td><td><span class="topic">Improve AI Accuracy</span><span class="desc">Precision, Recall, mAP, IoU และ Improve AI Accuracy</span></td></tr>
+        <tr><td>09:30 - 10:15</td><td><span class="topic">Build Face Recognition System</span><span class="desc">Face Detection, Face Embedding และ Add New User without Retraining</span></td></tr>
+        <tr class="break"><td>10:15 - 10:30</td><td>☕ พักรับประทานอาหารว่าง</td></tr>
+        <tr><td>10:30 - 11:15</td><td><span class="topic">Optimize AI for Edge Devices</span><span class="desc">PyTorch → ONNX → TensorRT และเลือก Model ให้เหมาะกับ Hardware</span></td></tr>
+        <tr><td>11:15 - 12:00</td><td><span class="topic">Deploy AI Anywhere with Docker</span><span class="desc">Build Docker Image และ Deploy บน Raspberry Pi และ NVIDIA Jetson</span></td></tr>
+        <tr class="break"><td>12:00 - 13:00</td><td>🍽 พักรับประทานอาหารกลางวัน</td></tr>
+        <tr><td>13:00 - 13:45</td><td><span class="topic">Edge AI Deployment</span><span class="desc">Deploy AI บน Raspberry Pi 5, NVIDIA Jetson Nano และ Jetson Orin Nano</span></td></tr>
+        <tr><td>13:45 - 14:30</td><td><span class="topic">AI + IoT Integration</span><span class="desc">MQTT, Node-RED, Dashboard และ Real-time Monitoring</span></td></tr>
+        <tr class="break"><td>14:30 - 14:45</td><td>☕ พักรับประทานอาหารว่าง</td></tr>
+        <tr><td>14:45 - 15:45</td><td><span class="topic">Final Workshop : From AI Model to Edge AI</span><span class="desc">Train → Export → Docker → Deploy → Real-time Detection</span></td></tr>
+        <tr><td>15:45 - 16:00</td><td><span class="topic">Q&amp;A</span><span class="desc">สรุปเนื้อหา และแนวทางต่อยอดสู่โปรเจกต์จริง</span></td></tr>
       </table>
     </div>
-    <p class="note">มีพักทานอาหารว่าง 15 นาที ทั้งช่วงเช้าและช่วงบ่าย · กำหนดการอาจปรับเล็กน้อยตามความเหมาะสมของคลาส</p>
+    <p class="note">กำหนดการอาจปรับเล็กน้อยตามความเหมาะสมของคลาส</p>
   </div>
 
   <div class="card">
