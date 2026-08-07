@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ลงทะเบียนเรียน TN00007 AI Vision Engineering for Edge AI - TESR Academy</title>
+<meta name="description" content="ลงทะเบียนอบรม TN00007 AI Vision Engineering for Edge AI — Build, Train &amp; Deploy AI to Edge Devices โดย TESR Academy">
+<style>
+  :root{
+    --tesr-red: #7a1418;
+    --tesr-red-light: #a3242a;
+    --tesr-gold: #d4af37;
+    --bg: #f5f1ee;
+    --card: #ffffff;
+    --text: #2a2a2a;
+    --muted: #6b6b6b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', 'Sarabun', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; left:0; right:0; bottom:0;
+    background-image:url('Logo_Red-No-Background.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:min(60vw, 500px);
+    opacity:0.06;
+    pointer-events:none;
+    z-index:0;
+  }
+  .header, .container{ position:relative; z-index:1; }
+  .header-logo{ width:64px; height:64px; object-fit:contain; margin-bottom:10px; }
+  .header{
+    background:linear-gradient(135deg, var(--tesr-red) 0%, #3a0a0c 100%);
+    color:#fff;
+    padding:32px 20px;
+    text-align:center;
+  }
+  .course-code{
+    display:inline-block; background:var(--tesr-gold); color:#3a2a00;
+    font-weight:700; font-size:0.8rem; letter-spacing:1px;
+    padding:3px 12px; border-radius:20px; margin-bottom:10px;
+  }
+  .header h1{ margin:0 0 6px; font-size:1.6rem; }
+  .header .subtitle{ margin:0 0 10px; color:var(--tesr-gold); font-size:0.95rem; font-style:italic; }
+  .header p{ margin:0; color:#f0d9d9; font-size:0.95rem; }
+  .banner{ width:100%; max-width:760px; display:block; margin:0 auto; }
+  .banner-wrap{ background:#000; text-align:center; }
+  .container{ max-width:760px; margin:0 auto; padding:24px 16px 80px; }
+  .card{
+    background:rgba(255,255,255,0.92);
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    padding:24px;
+    margin-bottom:20px;
+  }
+  .card h2{
+    color:var(--tesr-red);
+    border-bottom:3px solid var(--tesr-gold);
+    padding-bottom:8px;
+    font-size:1.15rem;
+    margin-top:0;
+  }
+  /* ── Key facts ── */
+  .facts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:12px; }
+  .fact{
+    border:1px solid #e6ddd4; border-radius:8px; padding:12px 14px; background:#fffdf8;
+  }
+  .fact .k{ font-size:0.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+  .fact .v{ font-weight:700; color:var(--tesr-red); font-size:1rem; }
+  /* ── Outcome list ── */
+  ul.outcome{ list-style:none; padding:0; margin:0; }
+  ul.outcome li{ padding:6px 0 6px 28px; position:relative; font-size:0.93rem; border-bottom:1px solid #f0eae4; }
+  ul.outcome li:last-child{ border-bottom:none; }
+  ul.outcome li::before{
+    content:"✔"; position:absolute; left:0; top:6px;
+    color:var(--tesr-gold); font-weight:700;
+  }
+  /* ── Hardware ── */
+  .hw-list{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:12px; }
+  .hw{
+    border-left:4px solid var(--tesr-gold); background:#fdf9f0;
+    padding:10px 14px; border-radius:6px; font-size:0.9rem;
+  }
+  .hw b{ display:block; color:var(--tesr-red); }
+  .schedule-day{ margin-bottom:14px; }
+  .schedule-day h3{ color:var(--tesr-red-light); margin-bottom:6px; font-size:1rem; }
+  table.sched{ width:100%; border-collapse:collapse; font-size:0.88rem; }
+  table.sched td{ padding:5px 6px; border-bottom:1px solid #eee; vertical-align:top; }
+  table.sched td:first-child{ white-space:nowrap; color:var(--tesr-red); font-weight:600; width:130px; }
+  table.sched tr.break td{ color:var(--muted); font-weight:400; font-style:italic; }
+  table.sched tr.break td:first-child{ color:var(--muted); font-weight:400; }
+  .note{ font-size:0.83rem; color:var(--muted); margin-top:6px; }
+  .location-box{
+    background:#fdf6f6;
+    border-left:4px solid var(--tesr-red);
+    padding:14px 16px;
+    border-radius:6px;
+    font-size:0.92rem;
+  }
+  .location-box a{ color:var(--tesr-red-light); }
+  label{ display:block; font-weight:600; margin:18px 0 6px; font-size:0.95rem; }
+  label .req{ color:var(--tesr-red-light); }
+  input[type=text], input[type=tel], input[type=email], textarea, select{
+    width:100%; padding:10px 12px; border:1px solid #ddd;
+    border-radius:6px; font-size:0.95rem; font-family:inherit; background:#fff;
+  }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--tesr-red-light); }
+  textarea{ min-height:80px; resize:vertical; }
+  .file-hint{ font-size:0.82rem; color:var(--muted); margin-top:4px; }
+  .pay-info{
+    background:#fff8e6; border:1px solid #efd9a0;
+    padding:12px 14px; border-radius:6px; font-size:0.9rem; margin-bottom:10px;
+  }
+  .pay-info b{ color:var(--tesr-red); }
+  .qr-wrap{ text-align:center; margin-bottom:14px; }
+  .qr-wrap img{ width:220px; max-width:70%; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+  .qr-wrap p{ font-size:0.85rem; color:var(--muted); margin:6px 0 0; }
+  input[type=file]{ position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; z-index:-1; }
+  .file-upload-btn{
+    display:block; width:100%; text-align:center;
+    background:linear-gradient(135deg, var(--tesr-gold) 0%, #b8902a 100%);
+    color:#3a2a00; font-weight:700; font-size:1.05rem; padding:16px;
+    border-radius:10px; cursor:pointer;
+    box-shadow:0 3px 10px rgba(212,175,55,0.4);
+    transition:transform .15s, box-shadow .15s; margin-top:6px;
+  }
+  .file-upload-btn:hover{ transform:translateY(-2px); box-shadow:0 5px 14px rgba(212,175,55,0.55); }
+  .file-upload-btn:focus-visible{ outline:3px solid var(--tesr-red); outline-offset:2px; }
+  .file-name-display{ text-align:center; margin-top:8px; font-size:0.9rem; color:var(--tesr-red); font-weight:600; }
+  button[type=submit]{
+    width:100%; background:var(--tesr-red); color:#fff; border:none;
+    padding:14px; font-size:1.05rem; font-weight:600; border-radius:8px;
+    cursor:pointer; margin-top:24px; transition:background .2s;
+  }
+  button[type=submit]:hover{ background:var(--tesr-red-light); }
+  button[type=submit]:disabled{ background:#bbb; cursor:not-allowed; }
+  #status{ text-align:center; margin-top:14px; font-weight:600; }
+  .ok{ color:#1a7a32; }
+  .err{ color:#b00020; }
+  .footer-note{ text-align:center; font-size:0.85rem; color:var(--muted); margin-top:10px; }
+
+  /* ── Success Modal ── */
+  .modal-overlay{
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,0.55); z-index:999;
+    align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:#fff; border-radius:14px; max-width:560px; width:100%;
+    box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden;
+    animation:modalIn .25s ease; max-height:90vh;
+    display:flex; flex-direction:column;
+  }
+  @keyframes modalIn{
+    from{ transform:translateY(30px); opacity:0; }
+    to  { transform:translateY(0);    opacity:1; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .modal-box{ animation:none; }
+    .file-upload-btn{ transition:none; }
+  }
+  .modal-header{
+    background:linear-gradient(135deg, var(--tesr-red) 0%, #3a0a0c 100%);
+    color:#fff; padding:20px 24px; text-align:center; flex-shrink:0;
+  }
+  .modal-header .check-icon{ font-size:2.4rem; display:block; margin-bottom:6px; }
+  .modal-header h2{ margin:0; font-size:1.15rem; }
+  .modal-body{
+    padding:22px 24px; font-size:0.93rem; line-height:1.75;
+    color:var(--text); overflow-y:auto; flex:1;
+  }
+  .modal-body .intro{
+    background:#fdf6f6; border-left:4px solid var(--tesr-red);
+    padding:10px 14px; border-radius:6px; margin-bottom:16px;
+    font-size:0.9rem; color:#5a1010;
+  }
+  .modal-steps ol{ padding-left:20px; margin:0 0 14px; }
+  .modal-steps li{ margin-bottom:10px; }
+  .modal-steps a{ color:var(--tesr-red-light); word-break:break-all; }
+  .course-links{ background:#f5f1ee; border-radius:8px; padding:12px 16px; margin-top:8px; }
+  .course-item{ margin-bottom:10px; }
+  .course-item:last-child{ margin-bottom:0; }
+  .course-label{
+    display:inline-block; font-size:0.78rem; font-weight:700;
+    padding:2px 8px; border-radius:20px; margin-bottom:3px;
+  }
+  .course-label.main{ background:var(--tesr-red); color:#fff; }
+  .course-label.extra{ background:var(--tesr-gold); color:#3a2a00; }
+  .course-links a{ display:block; color:var(--tesr-red-light); font-size:0.85rem; word-break:break-all; }
+  .modal-vdo{
+    background:#fff8e6; border:1px solid #efd9a0;
+    border-radius:6px; padding:10px 14px; font-size:0.9rem;
+  }
+  .modal-vdo a{ color:var(--tesr-red-light); }
+  .modal-footer{
+    padding:16px 24px 22px; text-align:center;
+    flex-shrink:0; border-top:1px solid #eee;
+  }
+  .modal-close-btn{
+    background:var(--tesr-red); color:#fff; border:none;
+    padding:12px 40px; font-size:1rem; font-weight:600;
+    border-radius:8px; cursor:pointer; transition:background .2s;
+  }
+  .modal-close-btn:hover{ background:var(--tesr-red-light); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="course-code">TN00007</span>
+  <h1>แบบฟอร์มลงทะเบียนเรียน<br>AI Vision Engineering for Edge AI (สอนสด)</h1>
+  <p class="subtitle">Build, Train &amp; Deploy AI to Edge Devices</p>
+  <img class="header-logo" src="Logo_Red-No-Background.png" alt="TESR Logo">
+  <p>by TESR Academy</p>
+</div>
+
+<div class="banner-wrap">
+  <img class="banner" src="banner.png" alt="AI Vision Engineering for Edge AI Course - TESR Academy">
+</div>
+
+<div class="container">
+
+  <!-- ═══════════ ข้อมูลคอร์ส (ไม่ระบุวันที่ — แจ้งวันอบรมในโพสต์/Ads แทน) ═══════════ -->
+  <div class="card">
+    <h2>ข้อมูลคอร์ส</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">รหัสคอร์ส</div><div class="v">TN00007</div></div>
+      <div class="fact"><div class="k">ระยะเวลา</div><div class="v">2 วัน (09:00 - 16:00)</div></div>
+      <div class="fact"><div class="k">รูปแบบ</div><div class="v">Hands-on ลงมือทำจริง</div></div>
+      <div class="fact"><div class="k">Deploy บน</div><div class="v">Raspberry Pi 5 / Jetson Orin Nano</div></div>
+    </div>
+    <p class="note">
+      คอร์สนี้เน้นการลงมือทำตั้งแต่เก็บภาพ ทำ Dataset เทรนโมเดล จนถึงนำโมเดลไป Deploy บน Edge Device จริง
+      ผู้เรียนสามารถนำโจทย์งานของตัวเองมาทดลองในคลาสได้ (Bring Your Own Use Case)
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>สิ่งที่คุณจะได้เรียนรู้</h2>
+    <ul class="outcome">
+      <li>สร้างและเทรน AI Model ด้วยตัวเอง</li>
+      <li>สร้าง Dataset และทำ Label สำหรับงาน Vision</li>
+      <li>ตรวจจับวัตถุแบบ Real-time</li>
+      <li>นำโมเดลไปใช้งานบนระบบ AI Vision</li>
+      <li>เพิ่มความแม่นยำของ AI Model</li>
+      <li>Deploy บน Raspberry Pi 5 และ Jetson Orin Nano</li>
+      <li>เชื่อมต่อผลลัพธ์ AI เข้ากับ IoT และ Dashboard</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>อุปกรณ์ที่ใช้ในคอร์ส</h2>
+    <div class="hw-list">
+      <div class="hw"><b>Raspberry Pi 5 (4GB RAM)</b>Edge Device สำหรับ Deploy โมเดล</div>
+      <div class="hw"><b>TESR Pi AIoT Gateway</b>พร้อมชุด I/O และเซนเซอร์</div>
+      <div class="hw"><b>Jetson Orin Nano (8GB RAM)</b>สำหรับงาน Real-time Detection</div>
+      <div class="hw"><b>กล้องสำหรับงาน AI Vision</b>ใช้เก็บ Dataset และทดสอบระบบ</div>
+    </div>
+    <p class="note">อุปกรณ์ทั้งหมดจัดเตรียมให้ใช้งานในคลาส (ไม่รวมในค่าอบรม เว้นแต่ระบุเป็นอย่างอื่น)</p>
+  </div>
+
+  <!-- ═══════════ กำหนดการ (อ้างอิงตามโปสเตอร์คอร์ส) ═══════════ -->
+  <div class="card">
+    <h2>กำหนดการอบรม</h2>
+    <div class="schedule-day">
+      <h3>Day 1 — Build Your AI Model</h3>
+      <table class="sched">
+        <tr><td>09:00 - 10:15</td><td>AI Vision Workflow (ภาพรวมการทำงานของระบบ AI Vision ตั้งแต่ต้นจนถึง Deploy)</td></tr>
+        <tr><td>10:15 - 12:00</td><td>Train Your First AI (เก็บภาพ ทำ Dataset และเทรนโมเดลตัวแรก)</td></tr>
+        <tr class="break"><td>12:00 - 13:00</td><td>พักทานอาหารกลางวัน 60 นาที</td></tr>
+        <tr><td>13:00 - 14:30</td><td>Detect Anything (Object Detection และการทดสอบกับภาพ วิดีโอ และกล้อง)</td></tr>
+        <tr><td>14:30 - 16:00</td><td>Train Your Own AI Model (เทรนโมเดลจากโจทย์ของผู้เรียนเอง)</td></tr>
+      </table>
+    </div>
+    <div class="schedule-day">
+      <h3>Day 2 — Deploy AI to the Real World</h3>
+      <table class="sched">
+        <tr><td>09:00 - 10:15</td><td>Improve AI Accuracy (วิเคราะห์ผล และปรับปรุงความแม่นยำของโมเดล)</td></tr>
+        <tr><td>10:15 - 11:15</td><td>Optimize AI for Edge (Export Model และ Optimize ให้เหมาะกับ Edge Device)</td></tr>
+        <tr><td>11:15 - 12:00</td><td>Deploy AI Anywhere (นำโมเดลขึ้น Raspberry Pi 5 และ Jetson Orin Nano)</td></tr>
+        <tr class="break"><td>12:00 - 13:00</td><td>พักทานอาหารกลางวัน 60 นาที</td></tr>
+        <tr><td>13:00 - 14:30</td><td>AI + IoT Integration (ส่งผลลัพธ์ AI เข้า MQTT, Node-RED และ Dashboard)</td></tr>
+        <tr><td>14:30 - 16:00</td><td>From Model to Edge AI (สรุประบบ, Final Project Demo และแนวทางต่อยอด)</td></tr>
+      </table>
+    </div>
+    <p class="note">มีพักทานอาหารว่าง 15 นาที ทั้งช่วงเช้าและช่วงบ่าย · กำหนดการอาจปรับเล็กน้อยตามความเหมาะสมของคลาส</p>
+  </div>
+
+  <div class="card">
+    <h2>สถานที่เรียน</h2>
+    <div class="location-box">
+      <b>บริษัท ทีอีเอสอาร์ จำกัด (TESR Playground)</b><br>
+      <b>อยู่ด้านหลังร้าน 7-ELEVEN</b><br>
+      เลขที่ 838 ถ.รัตนาธิเบศร์ ต.บางกระสอ อ.เมืองนนทบุรี จ.นนทบุรี 11000<br>
+      Tel: 082-983-7768<br>
+      Google map: <a href="https://www.tesrshop.com/map_playground" target="_blank" rel="noopener">www.tesrshop.com/map_playground</a><br><br>
+      <b>การเดินทาง:</b><br>
+      1. รถยนต์ (จอดรถฟรี ข้างบริษัท)<br>
+      2. MRT สายสีม่วง ลงสถานี สะพานพระนั่งเกล้า (ทางออกที่ 1)<br><br>
+      <b>สิ่งที่ต้องเตรียมมา:</b><br>
+      Notebook (Windows 10-11) สำหรับใช้เทรนโมเดล พร้อมพื้นที่ว่างในเครื่องอย่างน้อย 20 GB<br>
+      แนะนำให้เตรียมภาพตัวอย่างของงานที่อยากตรวจจับมาด้วย เพื่อใช้เป็น Use Case ของตัวเองในคลาส<br><br>
+      หากต้องการสอบถามข้อมูลเพิ่มเติม ติดต่อผ่าน Line: <a href="https://www.tesrshop.com/line" target="_blank" rel="noopener">www.tesrshop.com/line</a>
+    </div>
+  </div>
+
+  <form class="card" id="regForm">
+    <h2>ข้อมูลผู้ลงทะเบียน</h2>
+
+    <label>ชื่อ-นามสกุล ภาษาไทย <span class="req">*</span></label>
+    <input type="text" name="name_th" required>
+
+    <label>ชื่อ-นามสกุล ภาษาอังกฤษ <span class="req">*</span></label>
+    <input type="text" name="name_en" required>
+
+    <label>เบอร์โทรติดต่อ <span class="req">*</span></label>
+    <input type="tel" name="phone" required>
+
+    <label>Email Address <span class="req">*</span></label>
+    <input type="email" name="email" required>
+
+    <label>ประสบการณ์ด้าน Python / AI ของท่าน</label>
+    <select name="experience_level">
+      <option value="">-- เลือกระดับ --</option>
+      <option value="beginner">ยังไม่เคยเขียน Python มาก่อน</option>
+      <option value="basic">เขียน Python พื้นฐานได้</option>
+      <option value="intermediate">เคยใช้งาน AI / Computer Vision มาบ้าง</option>
+      <option value="advanced">ทำงานด้าน AI / Vision อยู่แล้ว</option>
+    </select>
+
+    <label>งานที่ต้องการนำ AI Vision ไปใช้ (Use Case ของท่าน)</label>
+    <textarea name="use_case" placeholder="เช่น ตรวจนับสินค้าบนสายพาน, ตรวจตำหนิชิ้นงาน, อ่านค่าหน้าจอเครื่องจักร, ตรวจ PPE ในโรงงาน"></textarea>
+
+    <label>หลักฐานการจ่าย</label>
+    <div class="qr-wrap">
+      <img src="qrcode.jpeg" alt="TESR QR Code พร้อมเพย์ รับเงิน">
+      <p>สแกนจ่ายผ่าน QR พร้อมเพย์ได้ทุกธนาคาร</p>
+    </div>
+    <!-- TODO: ตรวจสอบ/แก้ไขราคาคอร์ส TN00007 ให้ตรงกับรอบอบรมก่อนเผยแพร่ -->
+    <div class="pay-info">
+      สามารถโอนเงินมาได้ที่ <b>ธนาคารกสิกรไทย (K-Bank)</b><br>
+      ชื่อบัญชี บจก. ทีอีเอสอาร์ บัญชีเลขที่ 027-3-58302-5 สาขาจามจุรี สแควร์<br><br>
+      โดยหากอยู่ในช่วง Promotion: <b>[ระบุราคา] THB</b> [ยอดรวม VAT แล้ว]<br>
+      หากเกิน Promotion: <b>[ระบุราคา] THB</b> [ยอดรวม VAT แล้ว]
+    </div>
+
+    <label>แนบหลักฐานการโอนเงิน <span class="req">*</span></label>
+    <label class="file-upload-btn" for="payment_proof" tabindex="0">
+      📎 เลือกไฟล์หลักฐานการโอนเงิน
+    </label>
+    <input type="file" name="payment_proof" id="payment_proof" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.ppt,.pptx,.xls,.xlsx" required>
+    <div class="file-name-display" id="fileNameDisplay">ยังไม่ได้เลือกไฟล์</div>
+    <div class="file-hint">อัปโหลดได้ 1 ไฟล์: PDF, document, image, presentation, หรือ spreadsheet ขนาดไม่เกิน 10 MB</div>
+
+    <label>ชื่อที่อยู่ที่ต้องการให้ออกใบเสร็จรับเงิน/ใบกำกับภาษี <span class="req">*</span></label>
+    <textarea name="receipt_address" required></textarea>
+
+    <label>ท่านคาดหวังอะไรกับการเรียนในครั้งนี้</label>
+    <textarea name="expectation"></textarea>
+
+    <label>ท่านสามารถแนะนำตัวเองเพื่อทำ Networking กับเพื่อนๆในคลาสได้ อาจจะแนะนำว่าทำอาชีพอะไรอยู่ กำลังมองหาโอกาสหรือสนใจเรื่องไหนอยู่ ได้ตามอัธยาศัย</label>
+    <textarea name="networking_intro"></textarea>
+
+    <button type="submit" id="submitBtn">ส่งแบบฟอร์มลงทะเบียน</button>
+    <div id="status" role="status" aria-live="polite"></div>
+    <div class="footer-note">ข้อมูลของท่านจะถูกบันทึกลงระบบของ TESR Academy เท่านั้น</div>
+  </form>
+
+</div>
+
+<!-- ── Success Modal ── -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="check-icon">✅</span>
+      <h2>ลงทะเบียนสำเร็จแล้ว!</h2>
+    </div>
+    <div class="modal-body">
+      <div class="intro">
+        ขอบคุณที่สมัครเข้าร่วมอบรม <b>AI Vision Engineering for Edge AI (TN00007)</b><br>
+        ท่านจะได้รับสิทธิ์เรียน <b>Online Course</b> ฟรีด้วย!
+      </div>
+      <div class="modal-steps">
+        <b>ขั้นตอนการเข้าเรียน Online:</b>
+        <ol>
+          <li>
+            เข้าไปที่ <a href="https://www.tesracademy.com" target="_blank" rel="noopener">https://www.tesracademy.com</a>
+          </li>
+          <li>
+            ทำการ <b>Sign Up</b> สำหรับการเข้าครั้งแรก และ <b>Sign In</b> ให้เรียบร้อย<br>
+            จากนั้นเข้าไปที่ link course เรียน:
+            <!-- TODO: ใส่ URL ของคอร์ส TN00007 บน TESR Academy ให้ถูกต้อง -->
+            <div class="course-links">
+              <div class="course-item">
+                <span class="course-label main">Course หลัก</span>
+                <a href="https://www.tesracademy.com" target="_blank" rel="noopener">
+                  [ใส่ลิงก์คอร์ส TN00007 AI Vision Engineering for Edge AI]
+                </a>
+              </div>
+            </div>
+          </li>
+          <li>กดปุ่ม <b>Request Enroll</b></li>
+          <li>รอการ <b>Approve</b> จาก Admin ก็สามารถเริ่มเรียนได้เลยครับ</li>
+        </ol>
+      </div>
+      <div class="modal-vdo">
+        🎬 <b>VDO แสดงขั้นตอนการลงทะเบียนเรียน:</b><br>
+        <a href="https://youtu.be/JPzUCaTuxXQ" target="_blank" rel="noopener">https://youtu.be/JPzUCaTuxXQ</a>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-close-btn" id="modalCloseBtn">รับทราบ ปิดหน้าต่างนี้</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ─────────────────────────────────────────────
+     ตั้งค่า: URL ของ Google Apps Script Web App
+     ถ้าต้องการแยกชีตของคอร์สนี้ ให้ deploy script ใหม่
+     แล้วนำ URL มาใส่แทนบรรทัดด้านล่าง
+     ───────────────────────────────────────────── */
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzGmCaLJUmv-kTnRN0N3uNd7AE2FrUOIwcCNDmsa4pWi9DJd0GKId-e6voaNcXgkMM0MA/exec";
+
+  /* ข้อมูลคอร์สที่จะส่งไปกับทุกการลงทะเบียน
+     ทำให้ script ฝั่ง Google แยกได้ว่าเป็นคอร์สไหน */
+  const COURSE_CODE = "TN00007";
+  const COURSE_NAME = "AI Vision Engineering for Edge AI";
+
+  const form = document.getElementById('regForm');
+  const statusEl = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+  const fileInput = document.getElementById('payment_proof');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const fileUploadBtn = document.querySelector('.file-upload-btn');
+
+  fileInput.addEventListener('change', () => {
+    fileNameDisplay.textContent = fileInput.files.length > 0
+      ? '✓ ไฟล์ที่เลือก: ' + fileInput.files[0].name
+      : 'ยังไม่ได้เลือกไฟล์';
+  });
+
+  // ให้ปุ่มเลือกไฟล์ใช้งานได้ด้วยคีย์บอร์ด
+  fileUploadBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+  });
+
+  function fileToBase64(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.className = '';
+    statusEl.textContent = 'กำลังส่งข้อมูล กรุณารอสักครู่...';
+    submitBtn.disabled = true;
+
+    try{
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      delete payload.payment_proof;
+
+      payload.course_code = COURSE_CODE;
+      payload.course_name = COURSE_NAME;
+      payload.submitted_at = new Date().toISOString();
+
+      const file = fileInput.files[0];
+      if(file){
+        if(file.size > 10 * 1024 * 1024) throw new Error('ไฟล์ใหญ่เกิน 10 MB');
+        payload.fileName     = file.name;
+        payload.fileMimeType = file.type;
+        payload.fileBase64   = await fileToBase64(file);
+      }
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+
+      statusEl.className = 'ok';
+      statusEl.textContent = '✓ ลงทะเบียนสำเร็จ! ขอบคุณที่สมัครเข้าร่วมอบรม';
+      document.getElementById('successModal').classList.add('show');
+      form.reset();
+      fileNameDisplay.textContent = 'ยังไม่ได้เลือกไฟล์';
+
+    }catch(err){
+      statusEl.className = 'err';
+      statusEl.textContent = '✗ ส่งข้อมูลไม่สำเร็จ: ' + err.message + ' — กรุณาลองใหม่อีกครั้ง หรือติดต่อ Line ของ TESR';
+    }finally{
+      submitBtn.disabled = false;
+    }
+  });
+
+  document.getElementById('modalCloseBtn').addEventListener('click', () => {
+    document.getElementById('successModal').classList.remove('show');
+  });
+</script>
+
+</body>
+</html>
