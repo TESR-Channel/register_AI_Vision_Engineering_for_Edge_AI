@@ -443,10 +443,13 @@
 <script>
   /* ─────────────────────────────────────────────
      ตั้งค่า: URL ของ Google Apps Script Web App
-     ถ้าต้องการแยกชีตของคอร์สนี้ ให้ deploy script ใหม่
-     แล้วนำ URL มาใส่แทนบรรทัดด้านล่าง
+
+     ตรวจสอบก่อนใช้งานจริง:
+     เอา URL นี้ไปเปิดในเบราว์เซอร์ตรง ๆ ต้องเห็น {"status":"alive", ...}
+     ถ้าเห็นหน้า Login หรือ error แปลว่า Deployment ตั้งค่า
+     Who has access ไม่ได้เป็น Anyone
      ───────────────────────────────────────────── */
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAOtg30uDPwAJnHR2lawO4RpFiUlEDH7emhU2rVpUx-ID3LF4UozS7rjXmEUWneOX_/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzGmCaLJUmv-kTnRN0N3uNd7AE2FrUOIwcCNDmsa4pWi9DJd0GKId-e6voaNcXgkMM0MA/exec";
 
   /* ข้อมูลคอร์สที่จะส่งไปกับทุกการลงทะเบียน
      ทำให้ script ฝั่ง Google แยกได้ว่าเป็นคอร์สไหน */
@@ -503,12 +506,29 @@
         payload.fileBase64   = await fileToBase64(file);
       }
 
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'text/plain' }
-      });
+      // ส่งแบบอ่านผลลัพธ์ได้จริง ถ้าโดน CORS ค่อยถอยไปใช้ no-cors
+      let result = null;
+      try{
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        });
+        result = await res.json();
+      }catch(corsErr){
+        console.warn('อ่านผลลัพธ์ไม่ได้ ใช้โหมด no-cors แทน:', corsErr);
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        });
+      }
+
+      // ถ้าฝั่ง Google ตอบกลับว่า error ให้แจ้งผู้ใช้ ไม่ขึ้นว่าสำเร็จ
+      if(result && result.status === 'error'){
+        throw new Error(result.message || 'ระบบปลายทางแจ้งข้อผิดพลาด');
+      }
 
       statusEl.className = 'ok';
       statusEl.textContent = '✓ ลงทะเบียนสำเร็จ! ขอบคุณที่สมัครเข้าร่วมอบรม';
