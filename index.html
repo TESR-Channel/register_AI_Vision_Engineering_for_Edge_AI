@@ -214,6 +214,51 @@
     border-radius:8px; cursor:pointer; transition:background .2s;
   }
   .modal-close-btn:hover{ background:var(--tesr-red-light); }
+
+  /* ── Venue Gallery ── */
+  .venue-wrap[hidden]{ display:none; }
+  .venue-title{ font-weight:600; font-size:0.92rem; margin:16px 0 8px; color:var(--tesr-red); }
+  .venue-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:6px;
+  }
+  .venue-thumb{
+    position:relative;
+    padding:0; border:0; margin:0;
+    aspect-ratio:1/1;
+    border-radius:6px;
+    overflow:hidden;
+    cursor:zoom-in;
+    background:#eee;
+  }
+  .venue-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .2s; }
+  .venue-thumb:hover img{ transform:scale(1.06); }
+  .venue-thumb:focus-visible{ outline:3px solid var(--tesr-gold); outline-offset:2px; }
+  .venue-hint{ font-size:0.8rem; color:var(--muted); margin-top:6px; text-align:center; }
+  @media (max-width:520px){ .venue-grid{ grid-template-columns:repeat(3, 1fr); } }
+
+  .lightbox{
+    display:none; position:fixed; inset:0; z-index:1000;
+    background:rgba(0,0,0,0.9);
+    align-items:center; justify-content:center; flex-direction:column;
+    padding:16px;
+  }
+  .lightbox.show{ display:flex; }
+  .lightbox img{
+    max-width:100%; max-height:calc(100vh - 110px);
+    border-radius:8px; object-fit:contain; user-select:none;
+  }
+  .lb-caption{ color:#fff; margin-top:10px; font-size:0.95rem; text-align:center; }
+  .lb-btn{
+    position:absolute; background:rgba(255,255,255,0.15); color:#fff; border:none;
+    width:44px; height:44px; border-radius:50%; font-size:1.4rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lb-btn:hover{ background:rgba(255,255,255,0.3); }
+  .lb-close{ top:14px; right:14px; }
+  .lb-prev{ left:10px; top:50%; transform:translateY(-50%); }
+  .lb-next{ right:10px; top:50%; transform:translateY(-50%); }
 </style>
 </head>
 <body>
@@ -328,6 +373,18 @@
       แนะนำให้เตรียมภาพตัวอย่างของงานที่อยากตรวจจับมาด้วย เพื่อใช้เป็น Use Case ของตัวเองในคลาส<br><br>
       หากต้องการสอบถามข้อมูลเพิ่มเติม ติดต่อผ่าน Line: <a href="https://www.tesrshop.com/line" target="_blank" rel="noopener">www.tesrshop.com/line</a>
     </div>
+    <div class="venue-wrap" id="venueWrap">
+      <div class="venue-title">📷 ภาพสถานที่เรียน</div>
+      <div class="venue-grid" id="venueGrid">
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: ที่กั้นรถ"><img alt="ที่กั้นรถ — เลื่อนออกแล้วนำรถเข้ามาจอดได้ (จอดฟรี)" loading="lazy"></button>
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: ลานจอดรถ"><img alt="ลานจอดรถ TESR Academy" loading="lazy"></button>
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: อาคารสถานที่ฝึกอบรม"><img alt="อาคารสถานที่ฝึกอบรม" loading="lazy"></button>
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: ประตูทางเข้า"><img alt="ประตูทางเข้า (ประตูม้วน)" loading="lazy"></button>
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: ทางเข้าด้านใน"><img alt="ทางเข้าด้านใน" loading="lazy"></button>
+        <button type="button" class="venue-thumb" aria-label="ดูภาพ: ห้องเรียน"><img alt="ห้องเรียน TESR Academy" loading="lazy"></button>
+      </div>
+      <div class="venue-hint">แตะที่ภาพเพื่อดูขนาดใหญ่</div>
+    </div>
   </div>
 
   <form class="card" id="regForm">
@@ -391,6 +448,15 @@
     <div class="footer-note">ข้อมูลของท่านจะถูกบันทึกลงระบบของ TESR Academy เท่านั้น</div>
   </form>
 
+</div>
+
+<!-- ── Venue Lightbox ── -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="ภาพสถานที่เรียน">
+  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="ปิด">✕</button>
+  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="ภาพก่อนหน้า">‹</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="ภาพถัดไป">›</button>
 </div>
 
 <!-- ── Success Modal ── -->
@@ -546,6 +612,60 @@
   document.getElementById('modalCloseBtn').addEventListener('click', () => {
     document.getElementById('successModal').classList.remove('show');
   });
+
+  // ── Venue Gallery + Lightbox ──
+  (() => {
+    /* ที่อยู่ของภาพสถานที่เรียน
+       ตอนนี้ดึงจากหน้า ROS 2 Basic (ใช้ภาพชุดเดียวกัน)
+       ถ้าอัปโหลดภาพไว้ในโฟลเดอร์ images/ ของ repo นี้แล้ว เปลี่ยนเป็น 'images/' ได้เลย */
+    const IMG_BASE = 'https://tesr-channel.github.io/register_ROS2_Basic/images/';
+
+    const wrap = document.getElementById('venueWrap');
+    const thumbs = [...document.querySelectorAll('.venue-thumb')];
+    thumbs.forEach((t, i) => { t.querySelector('img').src = `${IMG_BASE}venue-${i+1}-thumb.jpg`; });
+    const photos = thumbs.map((t, i) => ({ src: `${IMG_BASE}venue-${i+1}.jpg`, cap: t.querySelector('img').alt }));
+
+    // ซ่อนแกลเลอรีอัตโนมัติ ถ้าโหลดภาพไม่ได้
+    const probe = new Image();
+    probe.onerror = () => { wrap.hidden = true; };
+    probe.src = `${IMG_BASE}venue-1-thumb.jpg`;
+
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbCap = document.getElementById('lbCaption');
+    let cur = 0, startX = null, lastFocus = null;
+
+    const show = i => {
+      cur = (i + photos.length) % photos.length;
+      lbImg.src = photos[cur].src;
+      lbImg.alt = photos[cur].cap;
+      lbCap.textContent = `${photos[cur].cap}  (${cur + 1}/${photos.length})`;
+    };
+    const open = i => { lastFocus = thumbs[i]; show(i); lb.classList.add('show'); document.body.style.overflow = 'hidden'; };
+    const close = () => {
+      lb.classList.remove('show'); document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
+    };
+
+    thumbs.forEach((t, i) => t.addEventListener('click', () => open(i)));
+    document.getElementById('lbClose').addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', () => show(cur - 1));
+    document.getElementById('lbNext').addEventListener('click', () => show(cur + 1));
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('show')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
+    });
+    lb.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+      startX = null;
+    });
+  })();
 </script>
 
 </body>
