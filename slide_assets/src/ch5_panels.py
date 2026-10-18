@@ -312,13 +312,13 @@ def fig_dials(det):
         elif n < base_n:
             note = "%d real objects lost" % (base_n - n)
         else:
-            note = "the setting the rest of this deck uses"
+            note = "this deck's default"
         d.text((x * S, (top + chh + 80) * S), note, font=f_s, fill=MUTED)
 
-    footnote(d, "Measured on this photograph when the slide was built. Wind "
-                "the dial down and the model shows you everything it was "
-                "unsure about - look at what those extra boxes are sitting "
-                "on. There is no correct default.", f_n, start=566)
+    # one line only - a second one is clipped by the bottom of the figure box
+    footnote(d, "Measured when the slide was built. Wind the dial down and "
+                "you see everything the model was unsure about.", f_n,
+             start=572)
     img.save(OUT + "ch5_dials.png")
     print("ch5_dials.png")
 
