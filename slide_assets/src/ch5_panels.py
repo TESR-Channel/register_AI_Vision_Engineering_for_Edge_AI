@@ -286,10 +286,8 @@ def fig_dials(det):
                                          dict(Counter(names_of(r)))))
     base_cnt = results[1][3]
 
-    d.text((14 * S, 10 * S), "The same photograph, three settings of one dial",
-           font=f_h, fill=WHITE)
-
-    top, cell, gap = 62, 388, 48
+    # no headline here - the slide's own title and subtitle carry it
+    top, cell, gap = 26, 400, 48
     x0 = (W - 3 * cell - 2 * gap) // 2
     for i, (c, r, n, cnt) in enumerate(results):
         x = x0 + i * (cell + gap)
@@ -334,27 +332,27 @@ def fig_source():
     f_n = font("Kanit", 23)
 
     PAD = 14
-    d.text((PAD * S, 10 * S), "One command. You change one word of it.",
-           font=f_t, fill=WHITE)
 
     # the command, with source= picked out
-    cy = 66
-    panel(d, PAD, cy, W - 2 * PAD, 86, ec=GOLD, fc=(26, 21, 18))
+    cy = 18
+    panel(d, PAD, cy, W - 2 * PAD, 118, ec=GOLD, fc=(26, 21, 18))
     parts = [("yolo detect predict  model=yolo11n.pt  ", WHITE),
              ("source=part.jpg", GOLD),
              ("  conf=0.5  save=True", WHITE)]
-    tx = PAD + 26
+    tx = PAD + 30
     for txt, col in parts:
-        d.text((tx * S, (cy + 28) * S), txt, font=f_c, fill=col)
+        d.text((tx * S, (cy + 38) * S), txt, font=f_c, fill=col)
         tx += d.textlength(txt, font=f_c) / S
     # underline the part that changes
-    ux0 = PAD + 26 + d.textlength(parts[0][0], font=f_c) / S
+    ux0 = PAD + 30 + d.textlength(parts[0][0], font=f_c) / S
     ux1 = ux0 + d.textlength(parts[1][0], font=f_c) / S
-    d.line([ux0 * S, (cy + 66) * S, ux1 * S, (cy + 66) * S], fill=GOLD, width=4)
+    d.line([ux0 * S, (cy + 80) * S, ux1 * S, (cy + 80) * S], fill=GOLD, width=5)
+    d.text((ux0 * S, (cy + 88) * S), "this is the only word that changes",
+           font=f_s, fill=GOLD)
 
     gap = 14
     cw = (W - 2 * PAD - 4 * gap) // 5
-    top, chh = 208, 244
+    top, chh = 196, 252
     for i, (title, code, note) in enumerate(SOURCES):
         x = PAD + i * (cw + gap)
         panel(d, x, top, cw, chh)
@@ -401,11 +399,7 @@ def fig_size(det):
         out.append((sz, r, len(r.boxes), cnt))
         print("  imgsz=%3d -> %d  %s" % (sz, len(r.boxes), dict(cnt)))
 
-    d.text((14 * S, 10 * S),
-           "The same photograph, fed to the same model at three input sizes",
-           font=f_h, fill=WHITE)
-
-    top, cell, gap = 62, 388, 48
+    top, cell, gap = 26, 400, 48
     x0 = (W - 3 * cell - 2 * gap) // 2
     base_cnt = out[0][3]
     for i, (sz, r, n, cnt) in enumerate(out):
@@ -471,11 +465,7 @@ def fig_break(det):
          "untouched photo, dial wound down"),
     ]
 
-    d.text((14 * S, 10 * S),
-           "Four ways to break it on purpose - all four run on the same photo",
-           font=f_h, fill=WHITE)
-
-    top, cell, gap = 58, 334, 30
+    top, cell, gap = 24, 360, 30
     x0 = (W - 4 * cell - 3 * gap) // 2
     for i, (title, frame, c, note) in enumerate(cases):
         x = x0 + i * (cell + gap)
