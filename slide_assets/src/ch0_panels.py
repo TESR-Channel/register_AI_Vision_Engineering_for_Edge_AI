@@ -58,10 +58,10 @@ TOOLS = [
       "live webcam test before you export"],
      "tesr-channel.github.io/AI_vision_Trainer"),
     ("TESR ROI Studio",
-     "Mark the regions you care about on a camera view, get Python back.",
-     ["7-segment, OCR, licence plate",
-      "barcode and QR, colour, presence",
-      "level, measurement, counting lines"],
+     "Say where to look on the camera view, and what that spot means.",
+     ["count parts crossing a line, with direction",
+      "turn pixels into millimetres from one known length",
+      "watch one fixed spot - meter, lamp, level, gauge"],
      "tesr-channel.github.io/AI_ROI_Designer"),
 ]
 
