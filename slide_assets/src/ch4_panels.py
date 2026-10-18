@@ -76,12 +76,22 @@ def fig_training():
             d.ellipse([(px - noderad) * S, (py - noderad) * S,
                        (px + noderad) * S, (py + noderad) * S],
                       fill=PANEL, outline=c, width=3)
-    d.text(((x + 26) * S, (top + 74) * S), "input", font=f_s, fill=MUTED)
-    d.text(((x + cw - 108) * S, (top + 74) * S), "answer", font=f_s, fill=MUTED)
-    for i, ln in enumerate(["every line is a weight",
-                            "training only looks for",
-                            "good values for them"]):
-        d.text(((x + 26) * S, (top + 330 + i * 34) * S), ln, font=f_b,
+    # what each column of the stack has worked out by that point - the part
+    # of the old architecture slide that was actually worth keeping
+    stage = ["pixels", "edges", "shapes", "answer"]
+    for ci, name in enumerate(stage):
+        lx = cx0 + ci * colgap - 26
+        d.text((lx * S, (top + 312) * S), name, font=f_s,
+               fill=GOLD if ci == len(stage) - 1 else MUTED)
+        if ci < len(stage) - 1:
+            ax = (lx + 76) * S
+            ay = (top + 322) * S
+            d.polygon([(ax, ay - 7 * S), (ax + 13 * S, ay),
+                       (ax, ay + 7 * S)], fill=(70, 80, 92))
+    for i, ln in enumerate(["each layer works from",
+                            "what the one before found",
+                            "- nobody writes those numbers"]):
+        d.text(((x + 26) * S, (top + 356 + i * 34) * S), ln, font=f_b,
                fill=WHITE if i == 0 else MUTED)
 
     # ---- 2. the loop ----
