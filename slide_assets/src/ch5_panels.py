@@ -25,6 +25,12 @@ from ch0_panels import font, wrap, OUT, BG, PANEL, EDGE, GOLD, MUTED, WHITE, S, 
 AI = "/home/claude/deck/ai_samples/"
 os.environ.setdefault("YOLO_VERBOSE", "False")
 
+# The same weights the workshop commands on the slides use. If this ever
+# diverges from the deck, a learner running the slide's command gets different
+# numbers from the figure beside it.
+DET_WEIGHTS = "yolo11n.pt"
+CLS_WEIGHTS = "yolo11n-cls.pt"
+
 GREEN = (111, 191, 115)
 RED = (214, 92, 88)
 BLUE = (91, 141, 239)
@@ -119,8 +125,8 @@ def diff_verdict(base, cnt):
     return "%d found - %s" % (n, "; ".join(bits)), RED
 
 
-def footnote(d, text, fnt, pad=14):
-    ny = H - 60
+def footnote(d, text, fnt, pad=14, start=None):
+    ny = H - 60 if start is None else start
     for ln in wrap(d, text, fnt, (W - 2 * pad) * S):
         d.text((pad * S, ny * S), ln, font=fnt, fill=MUTED)
         ny += 30
@@ -276,35 +282,43 @@ def fig_dials(det):
     f_s = font("Kanit", 23)
     f_n = font("Kanit", 23)
 
-    src = bus_square()
-    confs = [0.25, 0.50, 0.90]
+    # the full frame here, not the square crop - the junk the model is holding
+    # back sits in the parts of the scene the crop throws away
+    src = cv2.imread(AI + "bus.jpg")
+    confs = [0.05, 0.50, 0.90]
     results = []
     for c in confs:
         r = det(src, conf=c, verbose=False)[0]
         results.append((c, r, len(r.boxes), Counter(names_of(r))))
         print("  conf=%.2f -> %d  %s" % (c, len(r.boxes),
                                          dict(Counter(names_of(r)))))
-    base_cnt = results[1][3]
+    base_cnt, base_n = results[1][3], results[1][2]
 
     # no headline here - the slide's own title and subtitle carry it
-    top, cell, gap = 26, 400, 48
-    x0 = (W - 3 * cell - 2 * gap) // 2
+    top, cw, chh, gap = 14, 330, 440, 50
+    x0 = (W - 3 * cw - 2 * gap) // 2
     for i, (c, r, n, cnt) in enumerate(results):
-        x = x0 + i * (cell + gap)
+        x = x0 + i * (cw + gap)
         d.text((x * S, (top - 6) * S), "conf = %.2f" % c, font=f_r, fill=GOLD)
-        panel(d, x, top + 32, cell, cell, fc=(20, 24, 29))
-        paste_fit(img, d, draw_boxes(src, r), (x, top + 32, cell, cell))
-        txt, col = diff_verdict(base_cnt, cnt)
-        yy = top + cell + 44
-        for ln in wrap(d, txt, f_s, cell * S):
-            d.text((x * S, yy * S), ln, font=f_s, fill=col)
-            yy += 30
+        panel(d, x, top + 32, cw, chh, fc=(20, 24, 29))
+        paste_fit(img, d, draw_boxes(src, r, label_px=460),
+                  (x, top + 32, cw, chh))
+        col = GREEN if n == base_n else RED
+        d.text((x * S, (top + chh + 44) * S), "%d found" % n, font=f_r,
+               fill=col)
+        # one short line, so the panel note never runs into the footnote
+        if n > base_n:
+            note = "%d more than at conf 0.50" % (n - base_n)
+        elif n < base_n:
+            note = "%d real objects lost" % (base_n - n)
+        else:
+            note = "the setting the rest of this deck uses"
+        d.text((x * S, (top + chh + 80) * S), note, font=f_s, fill=MUTED)
 
-    footnote(d, "Measured on this photograph when the slide was built. Lower "
-                "the dial and you find more, including things that are not "
-                "there; raise it and you lose real ones. There is no correct "
-                "default - which error costs you more is a business decision, "
-                "and it is settled on footage from the real site.", f_n)
+    footnote(d, "Measured on this photograph when the slide was built. Wind "
+                "the dial down and the model shows you everything it was "
+                "unsure about - look at what those extra boxes are sitting "
+                "on. There is no correct default.", f_n, start=566)
     img.save(OUT + "ch5_dials.png")
     print("ch5_dials.png")
 
@@ -391,7 +405,7 @@ def fig_size(det):
     f_n = font("Kanit", 23)
 
     src = bus_square()
-    sizes = [640, 160, 96]
+    sizes = [640, 320, 96]
     out = []
     for sz in sizes:
         r = det(src, conf=0.5, imgsz=sz, verbose=False)[0]
@@ -454,6 +468,12 @@ def fig_break(det):
     # 3. the camera mounted on its side
     rot = cv2.rotate(src, cv2.ROTATE_90_CLOCKWISE)
 
+    # 4. a moving line, or a camera that cannot hold still
+    k = 45
+    kern = np.zeros((k, k), np.float32)
+    kern[k // 2, :] = 1.0 / k
+    blur = cv2.filter2D(src, -1, kern)
+
     cases = [
         ("Cover half of it", occl, 0.5,
          "a bar across the middle of every object"),
@@ -461,8 +481,8 @@ def fig_break(det):
          "the same scene, much smaller in frame"),
         ("Mount the camera sideways", rot, 0.5,
          "the same photo, turned a quarter turn"),
-        ("Drop conf to 0.05", src, 0.05,
-         "untouched photo, dial wound down"),
+        ("Let it move", blur, 0.5,
+         "motion blur, as on a running line"),
     ]
 
     top, cell, gap = 24, 360, 30
@@ -500,8 +520,8 @@ def fig_break(det):
 
 if __name__ == "__main__":
     from ultralytics import YOLO
-    det = YOLO("yolov8n.pt")
-    cls = YOLO("yolov8n-cls.pt")
+    det = YOLO(DET_WEIGHTS)
+    cls = YOLO(CLS_WEIGHTS)
     print("ch5_list:")
     fig_list(det, cls)
     print("ch5_box:")
