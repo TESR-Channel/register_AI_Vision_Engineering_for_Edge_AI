@@ -365,10 +365,24 @@ def fig_errors(det):
 
 
 # ==========================================================================
-CHAIN = [("PyTorch", ".pt from training"),
-         ("ONNX", ".onnx, portable"),
-         ("Runtime engine", "TensorRT / TFLite / OpenVINO / Hailo"),
-         ("Edge device", "running on the line")]
+# name, the token a learner will actually see, and a plain sentence saying
+# what that step is for. The engine names sit in the explanation rather than
+# the token line, because which engine you use depends on the chip and that is
+# the part people get wrong.
+CHAIN = [
+    ("PyTorch", ".pt from training",
+     "The file training gives you. Fine on a PC, too heavy for a small "
+     "board."),
+    ("ONNX", ".onnx, portable",
+     "One open format most runtimes can read, so you are no longer tied to "
+     "PyTorch."),
+    ("Runtime engine", "one engine per chip",
+     "TensorRT on Jetson, TFLite on a Pi, Hailo on a Hailo module. This is "
+     "where the speed comes from."),
+    ("Edge device", "running on the line",
+     "The machine that does the job on site, with no PC attached."),
+]
+EXPL = (200, 206, 214)
 
 
 def fig_field(det):
@@ -396,16 +410,20 @@ def fig_field(det):
     PAD, gap, arrow = 14, 12, 26
     n = len(CHAIN)
     bw = (W - 2 * PAD - (n - 1) * (gap + arrow)) // n
-    bh, top = 112, 26
+    bh, top = 180, 22
     x = PAD
-    for i, (name, sub) in enumerate(CHAIN):
+    for i, (name, sub, expl) in enumerate(CHAIN):
         d.rounded_rectangle([x * S, top * S, (x + bw) * S, (top + bh) * S],
                             radius=10 * S, fill=PANEL, outline=EDGE, width=2)
-        d.text(((x + 20) * S, (top + 18) * S), name, font=f_c,
+        d.text(((x + 20) * S, (top + 16) * S), name, font=f_c,
                fill=GOLD if i == n - 1 else WHITE)
-        yy = top + 56
+        yy = top + 54
         for seg_ in wrap(d, sub, f_cs, (bw - 40) * S):
             d.text(((x + 20) * S, yy * S), seg_, font=f_cs, fill=MUTED)
+            yy += 27
+        yy += 8
+        for seg_ in wrap(d, expl, f_cs, (bw - 40) * S):
+            d.text(((x + 20) * S, yy * S), seg_, font=f_cs, fill=EXPL)
             yy += 27
         if i < n - 1:
             ax = (x + bw + gap // 2 + 2) * S
@@ -413,14 +431,14 @@ def fig_field(det):
             d.polygon([(ax, ay - 12 * S), (ax + 22 * S, ay),
                        (ax, ay + 12 * S)], fill=GOLD)
         x += bw + gap + arrow
-    d.text((PAD * S, (top + bh + 10) * S),
+    d.text((PAD * S, (top + bh + 12) * S),
            "Re-test after every conversion. Each step can change the output.",
            font=f_s, fill=GOLD)
 
     shots = [(base, "As trained on"), (moved, "Camera bumped"),
              (blur, "Motion blur"), (dusk, "Dusk")]
     cw2 = (W - 2 * PAD - 3 * 26) // 4
-    ytop, chh = 230, 258
+    ytop, chh = 282, 196
     x = PAD
     results = []
     for im, lab in shots:
