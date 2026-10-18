@@ -297,50 +297,60 @@ def panel_codes():
 
 # ------------------------------------- 6. web -> laptop -> edge device
 def panel_path():
+    """Web -> PC -> device, with a way in that is hard to miss.
+
+    Type sizes here are deliberately large: the room holds adults as well as
+    students, and the previous version left most of each card empty while the
+    body text sat at 18px.
+    """
     W, H = 1676, 600
     f, a = fig(W, H)
-    t(a, 60, 66, "From the web to the real device", px=30, c=WHITE, w="bold")
-    t(a, 60, 110, "the same steps work for every task in this chapter", px=21, c=MUTED)
+    t(a, 60, 60, "From the web to the real device", px=32, c=WHITE, w="bold")
+    t(a, 60, 104, "the same four steps work for every task in this chapter",
+      px=23, c=MUTED)
 
-    # a scannable way in, so the link still works from a printed handout or a
-    # PDF opened on a phone. The slide carries the same URL as a live
-    # hyperlink for anyone reading on a laptop.
+    # The scannable way in. Big on purpose - from the back of a room, or from
+    # a printed handout, this is the only thing that has to be readable.
     import segno
     qr_path = "/tmp/lab_qr.png"
-    segno.make(LAB_URL, error="m").save(qr_path, scale=12, border=2,
+    segno.make(LAB_URL, error="m").save(qr_path, scale=14, border=2,
                                         dark="#0F1216", light="#FFFFFF")
-    bx(a, 1142, 26, 474, 128, fc=PANEL, ec=GOLD_D, lw=1.6, r=12, z=5)
-    put_img(a, cv2.imread(qr_path), 1162, 40, 100, 100, border=GOLD_D)
-    t(a, 1282, 62, "Try it on the web", px=21, c=GOLD, w="bold", z=8)
-    t(a, 1282, 94, "tesr-channel.github.io/", px=16, c=MUTED, z=8, fam=MONO)
-    t(a, 1282, 120, "image_processing_lab", px=16, c=MUTED, z=8, fam=MONO)
+    bx(a, 1116, 26, 500, 186, fc="#1A1512", ec=GOLD, lw=2.4, r=14, z=5)
+    put_img(a, cv2.imread(qr_path), 1140, 46, 146, 146, border=GOLD)
+    t(a, 1306, 84, "Try it on the web", px=27, c=GOLD, w="bold", z=8)
+    t(a, 1306, 126, "tesr-channel.github.io", px=19, c=WHITE, z=8, fam=MONO)
+    t(a, 1306, 154, "/image_processing_lab", px=19, c=WHITE, z=8, fam=MONO)
+    t(a, 1306, 186, "scan it, or tap the link on the slide", px=17, c=MUTED, z=8)
 
     steps = [
-        ("1", "Try it on the web", "Image Processing Lab\nmove a slider, see it at once\nno code to write", GOLD),
-        ("2", "Get the code", "a .py file\nwith the values you tuned", GOLD),
-        ("3", "Run it on a PC", "python xxx.py\na USB camera plugs right in", BLUE),
-        ("4", "Move to the device", "Raspberry Pi / Jetson\nsame code, new camera source", GREEN),
+        ("1", "Try it on the web", ["Image Processing Lab", "move a slider",
+                                    "see it change at once"], GOLD),
+        ("2", "Get the code", ["a .py file", "with your values", "already in it"], GOLD),
+        ("3", "Run it on a PC", ["python app.py", "a USB camera", "just works"], BLUE),
+        ("4", "Move to the device", ["Raspberry Pi / Jetson", "same code",
+                                     "new camera source"], GREEN),
     ]
-    bw, gap = 352, 34
+    bw, gap = 356, 34
     x = 60
     for num, title, body, col in steps:
-        bx(a, x, 170, bw, 250, fc=PANEL, ec=col, lw=1.6, r=12, z=5)
-        a.add_patch(Circle((x + 38, 208), 22, fc=col, ec="none", zorder=7))
-        t(a, x + 38, 209, num, px=20, c="#0E1116", ha="center", w="bold", z=8, fam=MONO)
-        t(a, x + 74, 209, title, px=22, c=WHITE, w="bold", z=8)
-        for i, line in enumerate(body.split("\n")):
-            t(a, x + 26, 262 + i * 32, line, px=18, c=MUTED, z=8)
+        bx(a, x, 238, bw, 196, fc=PANEL, ec=col, lw=2.0, r=12, z=5)
+        a.add_patch(Circle((x + 40, 276), 24, fc=col, ec="none", zorder=7))
+        t(a, x + 40, 277, num, px=22, c="#0E1116", ha="center", w="bold", z=8,
+          fam=MONO)
+        t(a, x + 78, 277, title, px=25, c=WHITE, w="bold", z=8)
+        for i, line in enumerate(body):
+            t(a, x + 28, 330 + i * 34, line, px=23, c=MUTED, z=8)
         if x + bw + gap < 1600:
-            arrow(a, x + bw + 6, 295, x + bw + gap - 6, 295)
+            arrow(a, x + bw + 6, 336, x + bw + gap - 6, 336)
         x += bw + gap
 
-    bx(a, 60, 452, 1556, 108, fc="#1A1512", ec=GOLD_D, lw=1.6, r=12, z=5)
-    t(a, 86, 486, "Can the web tool run on the Raspberry Pi itself?", px=20, c=GOLD, w="bold", z=7)
-    t(a, 86, 514, "the page does open, but the browser only grants the camera over https or localhost",
-      px=22, c=MUTED, z=7)
-    # 542, not 548: at 22px the descenders of the last line sat on the box border
-    t(a, 86, 542, "a CSI camera also needs libcamerify chromium  ·  the surer path is to tune on a PC and export to the Pi",
-      px=22, c=MUTED, z=7)
+    bx(a, 60, 456, 1556, 116, fc="#1A1512", ec=GOLD_D, lw=1.8, r=12, z=5)
+    t(a, 86, 488, "Can the web tool run on the Raspberry Pi itself?", px=23,
+      c=GOLD, w="bold", z=7)
+    t(a, 86, 520, "the page opens, but the browser only grants the camera over https or localhost",
+      px=23, c=MUTED, z=7)
+    t(a, 86, 550, "a CSI camera also needs libcamerify chromium  ·  the surer path is to tune on a PC and export to the Pi",
+      px=23, c=MUTED, z=7)
     f.savefig(OUT + "ip_path.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_path.png")
 
