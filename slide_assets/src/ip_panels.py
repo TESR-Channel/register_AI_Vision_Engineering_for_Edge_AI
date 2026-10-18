@@ -47,7 +47,7 @@ def strip(frames, labels, out_name, note=None, w=W, h=H):
     d = ImageDraw.Draw(img)
 
     f_lab = font("Kanit", 27)
-    f_note = font("Kanit", 25)
+    f_note = font("Kanit", 26)
 
     PAD = 14
     gap = 46
@@ -247,13 +247,15 @@ def lesson_draw():
 
     img = Image.new("RGB", (W * S, H * S), BG)
     d = ImageDraw.Draw(img)
-    f_code = font("DejaVu Sans Mono", 21)
-    f_eff = font("Kanit", 25)
-    f_note = font("Kanit", 24)
+    f_code = font("DejaVu Sans Mono", 22)
+    f_eff = font("Kanit", 26)
+    f_note = font("Kanit", 26)
 
-    PAD, gx, gy = 14, 24, 18
+    # the grid moves up: at 26px the footnote's descenders reached the canvas
+    # edge where it used to sit
+    PAD, gx, gy = 14, 24, 12
     cw = (W - 2 * PAD - gx) // 2
-    top, chh = 34, 262
+    top, chh = 24, 262
     side = 204
 
     for i, (code, effect, frame) in enumerate(items):
@@ -292,7 +294,7 @@ def lesson_draw():
             d.text((tx * S, ty * S), ln, font=f_eff, fill=WHITE)
             ty += 36
 
-    d.text((PAD * S, (H - 34) * S),
+    d.text((PAD * S, (H - 44) * S),
            "(x, y) counts from the top-left corner  ·  colours are BGR, not "
            "RGB  ·  thickness -1 fills the shape instead of outlining it",
            font=f_note, fill=MUTED)

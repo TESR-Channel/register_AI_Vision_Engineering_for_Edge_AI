@@ -79,28 +79,28 @@ def panel_stream():
     # a window, because that is literally what the learner sees first
     wx, wy, ww, wh = 60, 40, 760, 540
     bx(a, wx, wy, ww, wh, fc="#1A1F26", ec=EDGE, lw=1.4, r=10, z=4)
-    bx(a, wx, wy, ww, 40, fc="#262C34", ec="none", r=10, z=5)
-    a.add_patch(Rectangle((wx, wy + 28), ww, 12, fc="#262C34", ec="none", zorder=5))
+    bx(a, wx, wy, ww, 46, fc="#262C34", ec="none", r=10, z=5)
+    a.add_patch(Rectangle((wx, wy + 34), ww, 12, fc="#262C34", ec="none", zorder=5))
     for i, c in enumerate(("#E05A4F", "#E0B441", "#5FB85F")):
-        a.add_patch(Circle((wx + 22 + i * 20, wy + 20), 6, fc=c, ec="none", zorder=6))
-    t(a, wx + 92, wy + 20.5, "TESR camera", px=14, c=DIM, fam=MONO, z=6)
-    put_img(a, frame, wx + 14, wy + 54, ww - 28, wh - 70)
+        a.add_patch(Circle((wx + 24 + i * 22, wy + 23), 7, fc=c, ec="none", zorder=6))
+    t(a, wx + 100, wy + 23.5, "TESR camera", px=20, c=DIM, fam=MONO, z=6)
+    put_img(a, frame, wx + 14, wy + 60, ww - 28, wh - 76)
 
-    x0 = 900
-    t(a, x0, 72, "Nothing done to the image yet", px=27, c=GOLD, w="bold")
-    t(a, x0, 112, "Just open the camera and check that frames arrive", px=21, c=MUTED)
+    x0 = 870
+    t(a, x0, 72, "Nothing done to the image yet", px=32, c=GOLD, w="bold")
+    t(a, x0, 116, "Just open the camera and check that frames arrive", px=26, c=MUTED)
 
     code = ["cap = cv2.VideoCapture(0)", "", "while True:",
             "    ok, frame = cap.read()", "    if not ok:", "        break",
             "    cv2.imshow('cam', frame)",
             "    if cv2.waitKey(1) == ord('q'):", "        break", "",
             "cap.release()", "cv2.destroyAllWindows()"]
-    bx(a, x0, 150, 700, 330, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
+    bx(a, x0, 150, 700, 352, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
     for i, line in enumerate(code):
-        t(a, x0 + 26, 180 + i * 25, line, px=16, c=WHITE if line else MUTED,
+        t(a, x0 + 26, 178 + i * 27, line, px=20, c=WHITE if line else MUTED,
           fam=MONO, z=7)
-    t(a, x0, 520, "0 is the first USB camera  ·  try 1 or 2 if several are plugged in", px=23, c=MUTED)
-    t(a, x0, 556, "Always quit with q, or the camera stays locked", px=23, c=MUTED)
+    t(a, x0, 534, "0 is the first USB camera · try 1 or 2 if several are plugged in", px=26, c=MUTED)
+    t(a, x0, 578, "Always quit with q, or the camera stays locked", px=26, c=MUTED)
     f.savefig(OUT + "ip_stream.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_stream.png")
 
@@ -129,7 +129,7 @@ def panel_numbers():
                           lw=3.0 * S, zorder=9))
     a.plot([sx + 30, 700], [sy + 14, 300], color=GOLD, lw=1.2 * S, ls=(0, (6, 4)),
            zorder=9)
-    t(a, 50, 592, "a real camera frame", px=23, c=MUTED)
+    t(a, 50, 592, "a real camera frame", px=26, c=MUTED)
 
     arrow(a, 610, 310, 680, 310)
 
@@ -142,19 +142,19 @@ def panel_numbers():
             a.add_patch(Rectangle((gx + c * cell, gy + r * cell), cell, cell,
                                   fc=g, ec="#0F1216", lw=0.8, zorder=6))
             t(a, gx + c * cell + cell / 2, gy + r * cell + cell / 2, str(v),
-              px=13, c="#101418" if v > 130 else "#E8E8E8", ha="center",
+              px=20, c="#101418" if v > 130 else "#E8E8E8", ha="center",
               fam=MONO, z=7)
-    t(a, gx, gy - 24, "real brightness of the 8 x 8 pixels in the gold box", px=19, c=GOLD)
+    t(a, gx, gy - 28, "real brightness of the 8 x 8 pixels in the gold box", px=26, c=GOLD)
 
     x2 = gx + n * cell + 60
-    t(a, x2, 150, "frame.shape", px=22, c=GOLD, fam=MONO, w="bold")
-    t(a, x2, 186, "(512, 512, 3)", px=20, c=WHITE, fam=MONO)
-    t(a, x2, 216, "height, width, 3 colours", px=21, c=MUTED)
-    t(a, x2, 282, "frame[y, x]", px=22, c=GOLD, fam=MONO, w="bold")
-    t(a, x2, 318, "row first, column second", px=21, c=MUTED)
-    t(a, x2, 384, "B G R", px=22, c=GOLD, fam=MONO, w="bold")
-    t(a, x2, 420, "not R G B", px=21, c=MUTED)
-    t(a, 730, 592, "everything in this chapter is maths on these numbers", px=23, c=MUTED)
+    t(a, x2, 170, "frame.shape", px=26, c=GOLD, fam=MONO, w="bold")
+    t(a, x2, 208, "(512, 512, 3)", px=26, c=WHITE, fam=MONO)
+    t(a, x2, 246, "height, width, 3 colours", px=26, c=MUTED)
+    t(a, x2, 312, "frame[y, x]", px=26, c=GOLD, fam=MONO, w="bold")
+    t(a, x2, 350, "row first, column second", px=26, c=MUTED)
+    t(a, x2, 416, "B G R", px=26, c=GOLD, fam=MONO, w="bold")
+    t(a, x2, 454, "not R G B", px=26, c=MUTED)
+    t(a, 730, 592, "everything in this chapter is maths on these numbers", px=26, c=MUTED)
     f.savefig(OUT + "ip_numbers.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_numbers.png")
 
@@ -166,31 +166,37 @@ def panel_fps():
     frame = cv2.imread(SAMPLES + "ex3.png").copy()
     cv2.putText(frame, "FPS  24.6", (18, 48), cv2.FONT_HERSHEY_SIMPLEX,
                 1.3, (65, 164, 217), 3, cv2.LINE_AA)
-    put_img(a, frame, 60, 50, 620, 440)
-    t(a, 60, 520, "the number here only shows what the counter looks like — measure on the device you will use", px=23, c=MUTED)
+    put_img(a, frame, 60, 44, 620, 420)
+    # the slide's own gold caption carries the "not a Pi benchmark" point, so
+    # this line only has to say what the viewer is looking at
+    t(a, 60, 500, "this is what the counter looks like on screen", px=26,
+      c=MUTED)
 
     x0 = 760
-    t(a, x0, 78, "Time the whole loop, not just the model", px=27, c=GOLD, w="bold")
+    t(a, x0, 72, "Time the whole loop, not just the model", px=32, c=GOLD,
+      w="bold")
     code = ["prev = time.time()", "while True:",
             "    ok, frame = cap.read()", "    # process the frame here",
             "    now = time.time()",
             "    fps = 1.0 / (now - prev)", "    prev = now"]
-    bx(a, x0, 118, 560, 220, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
+    bx(a, x0, 112, 600, 252, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
     for i, line in enumerate(code):
-        t(a, x0 + 24, 146 + i * 26, line, px=16, c=WHITE, fam=MONO, z=7)
+        t(a, x0 + 24, 142 + i * 30, line, px=20, c=WHITE, fam=MONO, z=7)
 
     # where the time actually goes - proportions shown, no fabricated totals
-    t(a, x0, 380, "the time that goes missing is usually not the processing", px=21, c=WHITE)
+    t(a, x0, 398, "the time that goes missing is usually not the processing",
+      px=26, c=WHITE)
     segs = [("camera read", 0.42, BLUE), ("processing", 0.33, GOLD),
             ("imshow / waitKey", 0.25, STEEL)]
     bxx = x0
     for lab, frac, col in segs:
         w = 780 * frac
-        a.add_patch(Rectangle((bxx, 414), w, 40, fc=col, ec=BG, lw=1.5, zorder=6))
-        t(a, bxx + w / 2, 434, lab, px=14, c="#0E1116", ha="center", w="bold", z=7)
+        a.add_patch(Rectangle((bxx, 428), w, 46, fc=col, ec=BG, lw=1.5, zorder=6))
+        t(a, bxx + w / 2, 451, lab, px=20, c="#0E1116", ha="center", w="bold",
+          z=7)
         bxx += w
-    t(a, x0, 492, "proportions are illustrative — time it on your own machine",
-      px=22, c=MUTED)
+    t(a, x0, 512, "proportions are illustrative — time it on your own machine",
+      px=26, c=MUTED)
     f.savefig(OUT + "ip_fps.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_fps.png")
 
@@ -199,41 +205,43 @@ def panel_fps():
 def panel_haar():
     W, H = 1676, 560
     f, a = fig(W, H)
-    t(a, 60, 70, "Find face / eyes / smile", px=28, c=GOLD, w="bold")
-    t(a, 60, 112, "Haar Cascade ships with OpenCV — no training needed", px=21, c=MUTED)
+    t(a, 60, 68, "Find face / eyes / smile", px=32, c=GOLD, w="bold")
+    t(a, 60, 116, "Haar Cascade ships with OpenCV — no training needed", px=26, c=MUTED)
 
     # an illustration, not a photograph: this repo deliberately ships no faces
-    cx, cy = 320, 330
+    cx, cy = 320, 352
     a.add_patch(Ellipse((cx, cy), 230, 290, fc="#20262E", ec=EDGE, lw=1.6 * S, zorder=6))
     a.add_patch(Rectangle((cx - 128, cy - 160), 256, 320, fc="none", ec=CRIM,
                           lw=2.2 * S, zorder=8))
-    t(a, cx - 128, cy - 172, "face", px=16, c=CRIM, w="bold", fam=MONO, z=9)
+    t(a, cx - 128, cy - 180, "face", px=26, c=CRIM, w="bold", fam=MONO, z=9)
     for ex in (-52, 52):
         a.add_patch(Ellipse((cx + ex, cy - 40), 56, 32, fc="#2E353F", ec=EDGE,
                             lw=1.2 * S, zorder=7))
         a.add_patch(Circle((cx + ex, cy - 40), 11, fc="#AEB5BD", ec="none", zorder=8))
         a.add_patch(Rectangle((cx + ex - 38, cy - 62), 76, 44, fc="none", ec=GOLD,
                               lw=2.0 * S, zorder=9))
-    t(a, cx - 90, cy - 74, "eye", px=15, c=GOLD, w="bold", fam=MONO, z=10)
+    t(a, cx - 90, cy - 80, "eye", px=26, c=GOLD, w="bold", fam=MONO, z=10)
     a.add_patch(Ellipse((cx, cy + 88), 110, 44, fc="none", ec=GREEN, lw=2.0 * S,
                         zorder=8, angle=0))
     a.add_patch(Rectangle((cx - 62, cy + 62), 124, 56, fc="none", ec=GREEN,
                           lw=2.0 * S, zorder=9))
-    t(a, cx - 62, cy + 52, "smile", px=15, c=GREEN, w="bold", fam=MONO, z=10)
+    t(a, cx - 62, cy + 44, "smile", px=26, c=GREEN, w="bold", fam=MONO, z=10)
 
     x0 = 700
     code = ["path = cv2.data.haarcascades", "face = cv2.CascadeClassifier(",
             "    path + 'haarcascade_frontalface_default.xml')", "",
             "boxes = face.detectMultiScale(", "    gray, 1.1, 5, minSize=(60, 60))"]
-    bx(a, x0, 180, 900, 200, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
+    bx(a, x0, 170, 900, 212, fc="#0A0D11", ec=EDGE, lw=1.3, r=10, z=5)
     for i, line in enumerate(code):
-        t(a, x0 + 26, 208 + i * 27, line, px=16, c=WHITE if line else MUTED,
+        t(a, x0 + 26, 200 + i * 30, line, px=20, c=WHITE if line else MUTED,
           fam=MONO, z=7)
-    t(a, x0, 420, "find the face first, then look for eyes only inside the face box — far fewer false hits",
-      px=20, c=WHITE)
-    t(a, x0, 462, "this course ships no face images — use your own camera in the room", px=19, c=GOLD)
-    t(a, x0, 500, "a face image is biometric data under PDPA — a real system must always ask consent first",
-      px=22, c=MUTED)
+    # shortened to fit at 26px: "inside it" carries the same meaning as
+    # "inside the face box" in a sentence that already named the face box
+    t(a, x0, 428, "find the face first, then look for eyes only inside it — far fewer false hits",
+      px=26, c=WHITE)
+    t(a, x0, 470, "this course ships no face images — use your own camera in the room", px=26, c=GOLD)
+    t(a, x0, 512, "a face image is biometric data under PDPA — a real system must ask consent first",
+      px=26, c=MUTED)
     f.savefig(OUT + "ip_haar.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_haar.png")
 
@@ -276,21 +284,21 @@ def panel_codes():
                           True, (140, 200, 120), 4)
             rows.append((ty, v))
 
-    put_img(a, out, 50, 50, 860, 440)
-    t(a, 50, 520, "a real run on the course's own sample image", px=23, c=MUTED)
+    put_img(a, out, 50, 50, 820, 440)
+    t(a, 50, 520, "a real run on the course's own sample image", px=26, c=MUTED)
 
-    x0 = 960
-    t(a, x0, 78, "Read codes and markers", px=28, c=GOLD, w="bold")
-    t(a, x0, 118, "all three sit in one image, read together", px=20, c=MUTED)
-    yy = 170
+    x0 = 900
+    t(a, x0, 80, "Read codes and markers", px=32, c=GOLD, w="bold")
+    t(a, x0, 126, "all three sit in one image, read together", px=26, c=MUTED)
+    yy = 190
     for kind, val in rows:
-        bx(a, x0, yy, 660, 54, fc=PANEL, ec=EDGE, lw=1.1, r=8, z=5)
-        t(a, x0 + 18, yy + 27, kind, px=17, c=GOLD, w="bold", fam=MONO, z=7)
-        t(a, x0 + 190, yy + 27, (val[:34] + "…") if len(val) > 35 else val,
-          px=17, c=WHITE, fam=MONO, z=7)
-        yy += 64
-    t(a, x0, yy + 16, "ArUco: position and angle · QR: text · barcode: product code",
-      px=22, c=MUTED)
+        bx(a, x0, yy, 660, 62, fc=PANEL, ec=EDGE, lw=1.1, r=8, z=5)
+        t(a, x0 + 18, yy + 31, kind, px=26, c=GOLD, w="bold", fam=MONO, z=7)
+        t(a, x0 + 170, yy + 31, (val[:27] + "…") if len(val) > 28 else val,
+          px=26, c=WHITE, fam=MONO, z=7)
+        yy += 72
+    t(a, x0, yy + 40, "ArUco: position and angle · QR: text · barcode: product code",
+      px=26, c=MUTED)
     f.savefig(OUT + "ip_codes.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_codes.png  rows=%d" % len(rows))
 
@@ -305,9 +313,9 @@ def panel_path():
     """
     W, H = 1676, 600
     f, a = fig(W, H)
-    t(a, 60, 60, "From the web to the real device", px=32, c=WHITE, w="bold")
-    t(a, 60, 104, "the same four steps work for every task in this chapter",
-      px=23, c=MUTED)
+    t(a, 60, 62, "From the web to the real device", px=32, c=WHITE, w="bold")
+    t(a, 60, 110, "the same four steps work for every task in this chapter",
+      px=26, c=MUTED)
 
     # The scannable way in. Big on purpose - from the back of a room, or from
     # a printed handout, this is the only thing that has to be readable.
@@ -315,12 +323,14 @@ def panel_path():
     qr_path = "/tmp/lab_qr.png"
     segno.make(LAB_URL, error="m").save(qr_path, scale=14, border=2,
                                         dark="#0F1216", light="#FFFFFF")
-    bx(a, 1116, 26, 500, 186, fc="#1A1512", ec=GOLD, lw=2.4, r=14, z=5)
-    put_img(a, cv2.imread(qr_path), 1140, 46, 146, 146, border=GOLD)
-    t(a, 1306, 84, "Try it on the web", px=27, c=GOLD, w="bold", z=8)
-    t(a, 1306, 126, "tesr-channel.github.io", px=19, c=WHITE, z=8, fam=MONO)
-    t(a, 1306, 154, "/image_processing_lab", px=19, c=WHITE, z=8, fam=MONO)
-    t(a, 1306, 186, "scan it, or tap the link on the slide", px=17, c=MUTED, z=8)
+    # the card is wider than it was: at 26px the URL and the "scan it" note no
+    # longer fit in a 310px text column beside the QR
+    bx(a, 856, 26, 760, 186, fc="#1A1512", ec=GOLD, lw=2.4, r=14, z=5)
+    put_img(a, cv2.imread(qr_path), 880, 46, 146, 146, border=GOLD)
+    t(a, 1066, 70, "Try it on the web", px=32, c=GOLD, w="bold", z=8)
+    t(a, 1066, 112, "tesr-channel.github.io", px=26, c=WHITE, z=8, fam=MONO)
+    t(a, 1066, 143, "/image_processing_lab", px=26, c=WHITE, z=8, fam=MONO)
+    t(a, 1066, 182, "scan it, or tap the link on the slide", px=26, c=MUTED, z=8)
 
     steps = [
         ("1", "Try it on the web", ["Image Processing Lab", "move a slider",
@@ -333,24 +343,24 @@ def panel_path():
     bw, gap = 356, 34
     x = 60
     for num, title, body, col in steps:
-        bx(a, x, 238, bw, 196, fc=PANEL, ec=col, lw=2.0, r=12, z=5)
-        a.add_patch(Circle((x + 40, 276), 24, fc=col, ec="none", zorder=7))
-        t(a, x + 40, 277, num, px=22, c="#0E1116", ha="center", w="bold", z=8,
+        bx(a, x, 232, bw, 196, fc=PANEL, ec=col, lw=2.0, r=12, z=5)
+        a.add_patch(Circle((x + 40, 270), 24, fc=col, ec="none", zorder=7))
+        t(a, x + 40, 271, num, px=24, c="#0E1116", ha="center", w="bold", z=8,
           fam=MONO)
-        t(a, x + 78, 277, title, px=25, c=WHITE, w="bold", z=8)
+        t(a, x + 76, 271, title, px=26, c=WHITE, w="bold", z=8)
         for i, line in enumerate(body):
-            t(a, x + 28, 330 + i * 34, line, px=23, c=MUTED, z=8)
+            t(a, x + 28, 322 + i * 36, line, px=26, c=MUTED, z=8)
         if x + bw + gap < 1600:
-            arrow(a, x + bw + 6, 336, x + bw + gap - 6, 336)
+            arrow(a, x + bw + 6, 330, x + bw + gap - 6, 330)
         x += bw + gap
 
-    bx(a, 60, 456, 1556, 116, fc="#1A1512", ec=GOLD_D, lw=1.8, r=12, z=5)
-    t(a, 86, 488, "Can the web tool run on the Raspberry Pi itself?", px=23,
+    bx(a, 60, 448, 1556, 132, fc="#1A1512", ec=GOLD_D, lw=1.8, r=12, z=5)
+    t(a, 86, 484, "Can the web tool run on the Raspberry Pi itself?", px=26,
       c=GOLD, w="bold", z=7)
     t(a, 86, 520, "the page opens, but the browser only grants the camera over https or localhost",
-      px=23, c=MUTED, z=7)
-    t(a, 86, 550, "a CSI camera also needs libcamerify chromium  ·  the surer path is to tune on a PC and export to the Pi",
-      px=23, c=MUTED, z=7)
+      px=26, c=MUTED, z=7)
+    t(a, 86, 556, "a CSI camera also needs libcamerify chromium  ·  the surer path is to tune on a PC and export to the Pi",
+      px=26, c=MUTED, z=7)
     f.savefig(OUT + "ip_path.png", dpi=100, facecolor=BG); plt.close(f)
     print("ip_path.png")
 
