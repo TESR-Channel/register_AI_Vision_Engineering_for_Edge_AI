@@ -17,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 import matplotlib.font_manager as fm
 
 SAMPLES = "/home/claude/image_processing_lab/samples/"
+LAB_URL = "https://tesr-channel.github.io/image_processing_lab/"
 OUT = "/home/claude/deck/img/"
 
 BG, PANEL, EDGE = "#0F1216", "#1B2027", "#3A434F"
@@ -300,6 +301,19 @@ def panel_path():
     f, a = fig(W, H)
     t(a, 60, 66, "From the web to the real device", px=30, c=WHITE, w="bold")
     t(a, 60, 110, "the same steps work for every task in this chapter", px=21, c=MUTED)
+
+    # a scannable way in, so the link still works from a printed handout or a
+    # PDF opened on a phone. The slide carries the same URL as a live
+    # hyperlink for anyone reading on a laptop.
+    import segno
+    qr_path = "/tmp/lab_qr.png"
+    segno.make(LAB_URL, error="m").save(qr_path, scale=12, border=2,
+                                        dark="#0F1216", light="#FFFFFF")
+    bx(a, 1142, 26, 474, 128, fc=PANEL, ec=GOLD_D, lw=1.6, r=12, z=5)
+    put_img(a, cv2.imread(qr_path), 1162, 40, 100, 100, border=GOLD_D)
+    t(a, 1282, 62, "Try it on the web", px=21, c=GOLD, w="bold", z=8)
+    t(a, 1282, 94, "tesr-channel.github.io/", px=16, c=MUTED, z=8, fam=MONO)
+    t(a, 1282, 120, "image_processing_lab", px=16, c=MUTED, z=8, fam=MONO)
 
     steps = [
         ("1", "Try it on the web", "Image Processing Lab\nmove a slider, see it at once\nno code to write", GOLD),

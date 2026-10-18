@@ -213,16 +213,91 @@ def lesson_shape_angle():
 
 
 def lesson_draw():
-    """The drawing calls, applied to the course's own first sample."""
+    """One call per panel, so each result can be traced to the line above it.
+
+    The earlier version drew all four calls onto one frame, which made it
+    impossible to tell which call produced which mark.
+    """
     src = cv2.imread(SAMPLES + "ex2.jpg")
-    out = src.copy()
-    cv2.line(out, (30, 30), (480, 30), (65, 164, 217), 4)
-    cv2.rectangle(out, (60, 190), (250, 380), (111, 191, 115), 4)
-    cv2.circle(out, (330, 300), 70, (91, 73, 209), 4)
-    cv2.putText(out, "TESR", (60, 170), cv2.FONT_HERSHEY_SIMPLEX,
-                1.4, (30, 30, 34), 4, cv2.LINE_AA)
-    strip([src, out], ["original frame", "drawn over with 4 calls"], "ip_draw.png",
-          note="(x, y) counts from the top-left corner  ·  colours are BGR, not RGB  ·  cv2.putText cannot write Thai")
+    BLUE_ = (217, 164, 65)
+    GRN_ = (111, 191, 115)
+    VIO_ = (91, 73, 209)
+
+    def only(fn):
+        o = src.copy()
+        fn(o)
+        return o
+
+    items = [
+        ("cv2.line(img, (30,30), (480,30), col, 4)",
+         "a straight line from one point to another",
+         only(lambda o: cv2.line(o, (30, 30), (480, 30), BLUE_, 6))),
+        ("cv2.rectangle(img, (60,190), (250,380), col, 4)",
+         "a box - top-left corner to bottom-right",
+         only(lambda o: cv2.rectangle(o, (60, 190), (250, 380), GRN_, 6))),
+        ("cv2.circle(img, (330,300), 70, col, 4)",
+         "a circle - one centre point and a radius",
+         only(lambda o: cv2.circle(o, (330, 300), 70, VIO_, 6))),
+        ('cv2.putText(img, "TESR", (60,170), FONT, 1.4, col, 4)',
+         "text - Latin only, cv2 cannot draw Thai",
+         only(lambda o: cv2.putText(o, "TESR", (60, 170),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.4,
+                                    (30, 30, 34), 5, cv2.LINE_AA))),
+    ]
+
+    img = Image.new("RGB", (W * S, H * S), BG)
+    d = ImageDraw.Draw(img)
+    f_code = font("DejaVu Sans Mono", 21)
+    f_eff = font("Kanit", 25)
+    f_note = font("Kanit", 24)
+
+    PAD, gx, gy = 14, 24, 18
+    cw = (W - 2 * PAD - gx) // 2
+    top, chh = 34, 262
+    side = 204
+
+    for i, (code, effect, frame) in enumerate(items):
+        cx = PAD + (i % 2) * (cw + gx)
+        cy = top + (i // 2) * (chh + gy)
+        d.rounded_rectangle([cx * S, cy * S, (cx + cw) * S, (cy + chh) * S],
+                            radius=10 * S, fill=PANEL, outline=EDGE, width=2)
+        d.text(((cx + 18) * S, (cy + 14) * S), code, font=f_code, fill=GOLD)
+
+        rgbf = bgr2rgb(frame)
+        ih, iw = rgbf.shape[:2]
+        sc = side / max(ih, iw)
+        tw_, th_ = int(iw * sc), int(ih * sc)
+        tile = Image.fromarray(cv2.resize(rgbf, (tw_ * S, th_ * S),
+                                          interpolation=cv2.INTER_AREA))
+        px = (cx + 18) * S
+        py = (cy + 52) * S
+        img.paste(tile, (px, py))
+        d.rectangle([px - 2, py - 2, px + tw_ * S + 1, py + th_ * S + 1],
+                    outline=EDGE, width=2)
+
+        tx = cx + 18 + tw_ + 26
+        maxw = (cx + cw - 18 - tx) * S
+        words, lines, cur = effect.split(), [], ""
+        for wd in words:
+            cand = (cur + " " + wd).strip()
+            if d.textlength(cand, font=f_eff) <= maxw or not cur:
+                cur = cand
+            else:
+                lines.append(cur)
+                cur = wd
+        if cur:
+            lines.append(cur)
+        ty = cy + 52 + max(0, (th_ - len(lines) * 36) // 2)
+        for ln in lines:
+            d.text((tx * S, ty * S), ln, font=f_eff, fill=WHITE)
+            ty += 36
+
+    d.text((PAD * S, (H - 34) * S),
+           "(x, y) counts from the top-left corner  ·  colours are BGR, not "
+           "RGB  ·  thickness -1 fills the shape instead of outlining it",
+           font=f_note, fill=MUTED)
+    img.save(OUT + "ip_draw.png")
+    print("ip_draw.png")
 
 
 def lesson_pipeline():
